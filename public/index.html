@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="ico/favicon.png">
+
+	<title></title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="css/standup-template.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<!-- Fixed navbar -->
+	<div id="view_navbar">
+		<div class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<span id="navbar-title" class="navbar-brand"></span>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul id="navbar-list" class="nav navbar-nav">
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container" role="main">
+
+
+		<div class="row">
+
+			<div class="col-md-2">
+				<div id="users" class="list-group">
+				</div>
+				<i class="small">(Shift ↑↓)</i>
+			</div>
+
+			<div class="col-md-10">
+				<div class="panel-group" id="accordion" >
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne" href="#">
+									<span class="glyphicon glyphicon-chevron-down pull-right"></span> Query Details
+								</a>
+							</h4>
+						</div>
+						<!-- to make it start un-collapsed, add " in" to the style -->
+						<div id="collapseOne" class=" collapse ">
+							<div class="panel-body">
+
+
+
+								<!-- Begin content -->
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<div class="col-sm-11">
+											<textarea id="jira_query_text" class="form-control"></textarea><br/>
+											<i class="small">Results are always sorted by Release Date ASC, Status DESC, Severity DESC, Assignee ASC. Sort order may differ from Jira sort.</i>
+										</div>
+										<div class="col-sm-1">
+											<button class="form-control" default="true" onClick="query_jira();">Go</button>
+											<a href="#" onClick="query_jira_external();">Jira...</a>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="jira_query_fields">Limit Fields: </label>
+										<div class="col-sm-10">
+											<input id="jira_query_fields" class="form-control" value="id,key,assignee,summary,priority,status,issuetype,fixVersions"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="jira_query_max_results">Limit Rows:</label>
+										<div class="col-sm-2">
+											<input id="jira_query_max_results" class="form-control" value="100"/>
+										</div>
+										<div class="col-sm-8">
+											<label class="checkbox-inline">
+												<input type="checkbox" id="jira_query_show_closed" value="checked"> Show Closed tickets
+											</label>
+											<label class="checkbox-inline">
+												<input type="checkbox" id="jira_query_blockers_and_criticals" value="checked"> Only Blockers and Criticals
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="jira_query_fixVersion_1">Release: </label>
+										<div class="col-sm-10">
+											<label class="checkbox-inline">
+												<input type="checkbox" id="jira_query_fixVersion_1" value="Galileo 0.5" checked> Galileo 0.5
+											</label>
+											<label class="checkbox-inline">
+												<input type="checkbox" id="jira_query_fixVersion_2" value="Galileo 0.6" checked> Galileo 0.6
+											</label>
+											<label class="checkbox-inline">
+												<input type="checkbox" id="jira_query_fixVersion_3" value="Galileo 0.7" checked> Galileo 0.7
+											</label>
+										</div>
+									</div>
+								</form>
+
+								<!-- End content -->
+
+
+							</div>
+						</div>
+					</div>
+					
+					<div class="panel panel-default">
+						
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo" href="#">
+									<span id="board_title">Tickets</span>
+								</a>
+							</h4>
+						</div>
+						
+						<div id="collapseTwo" class=" collapse in">
+							<div class="panel-body">
+
+								<!-- Begin Content -->
+
+								<div id="jira_error" class="alert alert-danger hide">
+								</div>
+								<div id="loading_jira_status" class="alert alert-success hide">
+									Loading Jira data...
+								</div>
+								<div id="jira_content">
+								</div>
+
+								<!-- End Content -->
+
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="panel panel-default">
+						
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-target="#collapseThree" href="#">
+									<span class="glyphicon glyphicon-chevron-down pull-right"></span> Raw JSON Output from JIRA
+								</a>
+							</h4>
+						</div>
+						
+						<div id="collapseThree" class=" collapse">
+							<div class="panel-body">
+
+								<!-- Begin Content -->
+
+								<div id="raw_json">
+								</div>
+
+								<!-- End Content -->
+
+
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	</div><!-- /.container -->
+
+
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script data-main="js/main.js" src="../dist/js/require.js"></script>
+
+</body>
+</html>

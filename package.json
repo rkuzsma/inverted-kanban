@@ -1,0 +1,10 @@
+{
+  "name": "rkuzsma-standup",
+  "description": "Standup Board for Galileo Red Team",
+  "author": "Rich Kuzsma <rkuzsma@constantcontact.com>",
+  "dependencies": {
+    "connect": "2.14.x",
+    "cors-anywhere": "0.1.x"
+  },
+  "engine": "node >= 1.3"
+}

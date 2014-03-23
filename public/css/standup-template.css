@@ -1,0 +1,61 @@
+
+body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+
+.navbar {
+	border-radius: 0px;
+}
+
+.navbar-default {
+    border-color: #e74c3c;
+    background-color: #FA5957;
+    color: #000000;
+}
+
+.img-thumbnail {
+	border: 0px;
+	-webkit-box-shadow: 0 0px 0px;
+	-moz-box-shadow: 0 0px 0px;
+	box-shadow: 0 0px 0px;
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+  font-size: 18px;
+  background-color: #FA5957;
+}
+
+.navbar-default .navbar-nav > li >a {
+  color: #ffffff;
+  background-color: #e74c3c;
+}
+
+.ticket_link {
+	font-weight: bold;
+}
+
+.container {
+	margin-left: 0px;
+}
+
+.list-group-item {
+	padding: 2px;
+}
+.table>tbody>tr>td {
+	padding: 4px;
+}
+.panel-body {
+	padding: 4px;
+}
+.panel-group .panel+.panel {
+margin-top: 4px;
+}
