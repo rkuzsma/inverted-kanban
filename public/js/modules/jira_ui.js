@@ -37,6 +37,8 @@ function (modUsersRef, modJiraRef) {
 				_updateJqlText();
 				_queryJira();
 			});
+			
+			$('#jira_external_query').on('click', _queryJira_external);
 
 		});
 	};
@@ -338,6 +340,8 @@ function (modUsersRef, modJiraRef) {
 		function alwaysFn() {
 			$('#loading_jira_status').addClass('hide');
 		};
+		$('#jira_error').addClass('hide');
+		$('#loading_jira_status').removeClass('hide');
 		return modJira.search(jql, fields, max_results, successFn, failureFn, alwaysFn);
 	};
 	
