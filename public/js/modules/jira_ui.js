@@ -39,7 +39,7 @@ function (modUsersRef, modJiraRef) {
 			});
 			
 			$('#jira_external_query').on('click', _queryJira_external);
-
+			$('#jira_query').on('click', _queryJira);
 		});
 	};
 
@@ -54,7 +54,7 @@ function (modUsersRef, modJiraRef) {
 		var blockers_and_criticals_only = $('#jira_query_blockers_and_criticals').is(':checked');
 
 		var jql = 'project = VN';
-
+		
 		// fixVersions
 		var fixVersions = '';
 		for (var i=1; i <= 3; i++) {
@@ -92,30 +92,49 @@ function (modUsersRef, modJiraRef) {
 		$('#jira_query_text').text(jql);
 	};
 
+	var _statuses = {};
+	_statuses['Test Done']=1;
+	_statuses['In Test']=2;
+	_statuses['Ready for Test']=3;
+	_statuses['In Development']=4;
+	_statuses['Ready for Development']=5;
+	_statuses['Planning']=6;
+	_statuses['Todo/User Story']=7;
+	_statuses['Cancelled']=8;
+	_statuses['Closed']=9;
+	_statuses['UNDEFINED']=10;
+	
+	var _statusFn = function(statusStr) {
+		var status = _statuses[statusStr];
+		if (status == undefined) {
+			console.log('WARNING: Unknown status: ' + statusStr);
+			status = _statuses['UNDEFINED'];
+		}
+		return status;
+	};
+	
+	var _priorities = {};
+	_priorities['Blocker'] = 1;
+	_priorities['Critical'] = 2;
+	_priorities['High'] = 3;
+	_priorities['Medium'] = 4;
+	_priorities['Low'] = 5;
+	_priorities['None'] = 6;
+	_priorities['UNDEFINED'] = 7;
+	
+	var _priorityFn = function(priorityStr) {
+		var priority = _priorities[priorityStr];
+		if (priority == undefined) {
+			console.log('WARNING: Unknown priority: ' + priorityStr);
+			priority = _priorities['UNDEFINED'];
+		}
+		return priority;
+	}
 
 	// Sort tickets by Release, then by Status, then by Priority, then by Assignee
 	// 'issues' is the issues array that comes back from JIRA JSON response
-	var _sortIssues = function(issues) {
-		var statuses = {};
-		var i=1;
-		statuses['Closed'] = i++;
-		statuses['Test Done'] = i++;
-		statuses['In Test'] = i++;
-		statuses['Ready for Test'] = i++;
-		statuses['In Development'] = i++;
-		statuses['Ready for Development'] = i++;
-		statuses['Planning'] = i++;
-		statuses['Todo/User Story'] = i++;
-
-		var priorities = {};
-		i = 1;
-		priorities['Blocker'] = i++;
-		priorities['Critical'] = i++;
-		priorities['High'] = i++;
-		priorities['Medium'] = i++;
-		priorities['Low'] = i++;
-		priorities['None'] = i++;
-
+	var _sortIssues = function(issues,statusFn,priorityFn) {
+		
 		issues.sort(function(a,b) {
 			// Sort by Release Date
 			// A ticket can have many fixVersions; we only look at the first one.
@@ -136,8 +155,8 @@ function (modUsersRef, modJiraRef) {
 
 			// Release Dates are equal
 			// Sort by Status
-			var status_a = statuses[a.fields.status.name];
-			var status_b = statuses[b.fields.status.name];
+			var status_a = statusFn(a.fields.status.name);
+			var status_b = statusFn(b.fields.status.name);
 			if (status_a < status_b) {
 				return -1;
 			}
@@ -147,8 +166,8 @@ function (modUsersRef, modJiraRef) {
 
 			// Statuses are equal
 			// Sort by Priority
-			var priority_a = priorities[a.fields.priority.name];
-			var priority_b = priorities[b.fields.priority.name];
+			var priority_a = priorityFn(a.fields.priority.name);
+			var priority_b = priorityFn(b.fields.priority.name);
 			if (priority_a < priority_b) {
 				return -1;
 			}
@@ -236,7 +255,7 @@ function (modUsersRef, modJiraRef) {
 		var issues = datas.issues;
 		if (issues.length == 0) return;
 
-		_sortIssues(issues);
+		_sortIssues(issues, _statusFn, _priorityFn);
 
 		// Fill in Totals for all the issues, grouped by Release and Status.
 		_setIssueCounts(issues);
